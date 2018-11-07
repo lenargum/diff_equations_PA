@@ -265,9 +265,9 @@ def global_error(y0, x0, xn, step):
         _, imp_y, _ = imp_euler(y0, x0, xn, (xn - x0) / i)
         _, rk_y, _ = runge_kutta(y0, x0, xn, (xn - x0) / i)
 
-        eu_gl_e.append((np.array(y) - np.array(eu_y[:len(y)])).sum())
-        imp_gl_e.append((np.array(y) - np.array(imp_y[:len(y)])).sum())
-        rk_gl_e.append((np.array(y) - np.array(rk_y[:len(y)])).sum())
+        eu_gl_e.append(np.max(np.array(eu_y[:len(y)])))
+        imp_gl_e.append(np.max(np.array(imp_y[:len(y)])))
+        rk_gl_e.append(np.max(np.array(rk_y[:len(y)])))
 
     plt.plot(n, eu_gl_e, '.-', c='m', label='Euler method')
     plt.plot(n, imp_gl_e, '.-', c='g', label='Improved Euler method ')
