@@ -235,6 +235,7 @@ def global_error(y0, x0, xn, step):
     plt.plot(n, rk_gl_e, '.-', c='y', label='Runge-Kutta method')
 
 
+# Main window
 window = Tk()
 window.title("Assignment")
 window.geometry('350x355+200+300')
@@ -242,6 +243,7 @@ window.geometry('350x355+200+300')
 lbl1 = Label(window, text="x0 =")
 lbl1.grid(column=1, row=0)
 
+# Scale for x0
 def_x0 = IntVar()
 def_x0.set(0)
 scale1 = Scale(window, from_=-10, to=10, length=200, variable=def_x0, orient=HORIZONTAL)
@@ -250,6 +252,7 @@ scale1.grid(column=2, row=0)
 lbl2 = Label(window, text="y0 =")
 lbl2.grid(column=1, row=1)
 
+# Scale for y0
 def_y0 = IntVar()
 def_y0.set(1)
 scale2 = Scale(window, from_=-10, to=10, length=200, variable=def_y0, orient=HORIZONTAL)
@@ -258,6 +261,7 @@ scale2.grid(column=2, row=1)
 lbl3 = Label(window, text="X =")
 lbl3.grid(column=1, row=2)
 
+# Scale for X
 def_X = IntVar()
 def_X.set(3)
 scale3 = Scale(window, from_=-10, to=10, length=200, variable=def_X, orient=HORIZONTAL)
@@ -266,12 +270,14 @@ scale3.grid(column=2, row=2)
 lbl4 = Label(window, text="step =")
 lbl4.grid(column=1, row=3)
 
+# Scale for step
 def_step = DoubleVar()
 def_step.set(0.01)
 scale4 = Scale(window, from_=0.01, to=1, resolution=0.01, length=200, variable=def_step, orient=HORIZONTAL)
 scale4.grid(column=2, row=3)
 
 
+# IVP button handling
 def ivp_clicked():
     plt.close()
     if not check_for_error():
@@ -284,6 +290,7 @@ btn1 = Button(window, text="IVP", command=ivp_clicked)
 btn1.grid(column=3, row=4, sticky=E)
 
 
+# Euler button handling
 def euler_clicked():
     plt.close()
     if not check_for_error():
@@ -297,6 +304,7 @@ btn2 = Button(window, text="Euler", command=euler_clicked)
 btn2.grid(column=3, row=5, sticky=E)
 
 
+# Imp. Euler button handling
 def imp_euler_clicked():
     plt.close()
     if not check_for_error():
@@ -310,6 +318,7 @@ btn3 = Button(window, text="Imp. Euler", command=imp_euler_clicked)
 btn3.grid(column=3, row=6, sticky=E)
 
 
+# Runge Kutta button handling
 def runge_kutta_clicked():
     plt.close()
     if not check_for_error():
@@ -323,6 +332,7 @@ btn4 = Button(window, text="Runge Kutta", command=runge_kutta_clicked)
 btn4.grid(column=3, row=7, sticky=E)
 
 
+# All plots button handling
 def all_clicked():
     plt.close()
     if not check_for_error():
@@ -336,6 +346,7 @@ btn5 = Button(window, text="All plots", command=all_clicked)
 btn5.grid(column=3, row=8, sticky=E)
 
 
+# All local errors button handling
 def all_local_errors_clicked():
     plt.close()
     if not check_for_error():
@@ -349,6 +360,7 @@ btn6 = Button(window, text="All local errors", command=all_local_errors_clicked)
 btn6.grid(column=3, row=9, sticky=E)
 
 
+# Global error button handling
 def global_error_clicked():
     plt.close()
     if not check_for_error():
@@ -362,6 +374,7 @@ btn7 = Button(window, text="Global error", command=global_error_clicked)
 btn7.grid(column=3, row=10, sticky=E)
 
 
+# Errors handling
 def check_for_error():
     if scale1.get() == 0:
         messagebox.showerror("Error", "Division by zero")
@@ -373,6 +386,7 @@ def check_for_error():
         return False
 
 
+# Feature for closing all windows on close
 def on_closing():
     plt.close()
     window.destroy()
