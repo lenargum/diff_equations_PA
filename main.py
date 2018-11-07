@@ -24,7 +24,12 @@ def exact(y0, x0, xn, step):
 
 def y_ivp_plot(y0, x0, xn, step):
     plt.figure(figsize=(8, 8))
-    if x0 < 0 < xn:
+    plt.xlabel('x')
+    plt.ylabel('y')
+    if x0 == 0 < xn:
+        x_arr, y = exact(y0, x0 + step, xn, step)
+        plt.plot(x_arr, y, c='b', label='Exact')
+    elif x0 < 0 < xn:
         x_arr, y = exact(y0, x0, -step, step)
 
         plt.plot(x_arr, y, c='b', label='Exact')
@@ -52,7 +57,11 @@ def euler_method(y0, x0, xn, step):
 
 def euler_method_plot(y0, x0, xn, step):
     y_ivp_plot(y0, x0, xn, step)
-    if x0 < 0 < xn:
+    if x0 == 0 < xn:
+        x_arr, y, error = euler_method(y0, x0 + step, xn, step)
+        plt.plot(x_arr, y[:len(x_arr)], c='m', label='Euler method')
+        plt.plot(x_arr, error, 'r', label="Error")
+    elif x0 < 0 < xn:
         x_arr, y, error = euler_method(y0, x0, -step, step)
         plt.plot(x_arr, y[:len(x_arr)], c='m', label='Euler method')
         plt.plot(x_arr, error, 'r', label="Error")
@@ -85,7 +94,11 @@ def imp_euler(y0, x0, xn, step):
 
 def imp_euler_plot(y0, x0, xn, step):
     y_ivp_plot(y0, x0, xn, step)
-    if x0 < 0 < xn:
+    if x0 == 0 < xn:
+        x_arr, y, error = imp_euler(y0, x0 + step, xn, step)
+        plt.plot(x_arr, y[:len(x_arr)], c='g', label='Improved Euler method')
+        plt.plot(x_arr, error, 'r', label="Error")
+    elif x0 < 0 < xn:
         x_arr, y, error = imp_euler(y0, x0, -step, step)
         plt.plot(x_arr, y[:len(x_arr)], c='g', label='Improved Euler method')
         plt.plot(x_arr, error, 'r', label="Error")
@@ -120,8 +133,11 @@ def runge_kutta(y0, x0, xn, step):
 
 def runge_kutta_plot(y0, x0, xn, step):
     y_ivp_plot(y0, x0, xn, step)
-
-    if x0 < 0 < xn:
+    if x0 == 0 < xn:
+        x_arr, y, error = runge_kutta(y0, x0 + step, xn, step)
+        plt.plot(x_arr, y[:len(x_arr)], c='y', label='Runge_Kutta method')
+        plt.plot(x_arr, error, 'r', label="Error")
+    elif x0 < 0 < xn:
         x_arr, y, error = runge_kutta(y0, x0, -step, step)
         plt.plot(x_arr, y[:len(x_arr)], c='y', label='Runge_Kutta method')
         plt.plot(x_arr, error, 'r', label="Error")
@@ -142,7 +158,15 @@ def runge_kutta_plot(y0, x0, xn, step):
 def all_methods_plot(y0, x0, xn, step):
     y_ivp_plot(y0, x0, xn, step)
 
-    if x0 < 0 < xn:
+    if x0 == 0 < xn:
+        eu_x, eu_y, eu_error = euler_method(y0, x0 + step, xn, step)
+        imp_x, imp_y, imp_error = imp_euler(y0, x0 + step, xn, step)
+        rk_x, rk_y, rk_error = runge_kutta(y0, x0 + step, xn, step)
+
+        plt.plot(eu_x, eu_y[:len(eu_x)], c='m', label='Euler')
+        plt.plot(imp_x, imp_y[:len(imp_x)], c='g', label='Improved Euler')
+        plt.plot(rk_x, rk_y[:len(rk_x)], c='y', label='Runge-Kutta')
+    elif x0 < 0 < xn:
         eu_x, eu_y, eu_error = euler_method(y0, x0, -step, step)
         imp_x, imp_y, imp_error = imp_euler(y0, x0, -step, step)
         rk_x, rk_y, rk_error = runge_kutta(y0, x0, -step, step)
@@ -179,8 +203,18 @@ def all_methods_plot(y0, x0, xn, step):
 
 def all_local_errors(y0, x0, xn, step):
     plt.figure(figsize=(8, 8))
+    plt.xlabel('x values')
+    plt.ylabel('size of error')
 
-    if x0 < 0 < xn:
+    if x0 == 0 < xn:
+        eu_x, eu_y, eu_error = euler_method(y0, x0 + step, xn, step)
+        imp_x, imp_y, imp_error = imp_euler(y0, x0 + step, xn, step)
+        rk_x, rk_y, rk_error = runge_kutta(y0, x0 + step, xn, step)
+
+        plt.plot(eu_x, eu_error, '--', c='m', label='Euler method error')
+        plt.plot(imp_x, imp_error, '--', c='g', label='Improoved Euler method error')
+        plt.plot(rk_x, rk_error, '--', c='y', label='Runge-Kutta method error')
+    elif x0 < 0 < xn:
         eu_x, eu_y, eu_error = euler_method(y0, x0, -step, step)
         imp_x, imp_y, imp_error = imp_euler(y0, x0, -step, step)
         rk_x, rk_y, rk_error = runge_kutta(y0, x0, -step, step)
@@ -216,6 +250,10 @@ def all_local_errors(y0, x0, xn, step):
 
 def global_error(y0, x0, xn, step):
     plt.figure(figsize=(8, 8))
+    plt.xlabel('size of n')
+    plt.ylabel('size of error')
+    if x0 == 0:
+        x0 = x0 + step
 
     n = np.arange(1, int((xn - x0) / step) + 1, 1)
     eu_gl_e = []
@@ -226,6 +264,7 @@ def global_error(y0, x0, xn, step):
         _, eu_y, _ = euler_method(y0, x0, xn, (xn - x0) / i)
         _, imp_y, _ = imp_euler(y0, x0, xn, (xn - x0) / i)
         _, rk_y, _ = runge_kutta(y0, x0, xn, (xn - x0) / i)
+
         eu_gl_e.append((np.array(y) - np.array(eu_y[:len(y)])).sum())
         imp_gl_e.append((np.array(y) - np.array(imp_y[:len(y)])).sum())
         rk_gl_e.append((np.array(y) - np.array(rk_y[:len(y)])).sum())
@@ -238,7 +277,7 @@ def global_error(y0, x0, xn, step):
 # Main window
 window = Tk()
 window.title("Assignment")
-window.geometry('350x355+200+300')
+window.geometry('250x375+300+300')
 
 lbl1 = Label(window, text="x0 =")
 lbl1.grid(column=1, row=0)
@@ -276,6 +315,9 @@ def_step.set(0.01)
 scale4 = Scale(window, from_=0.01, to=1, resolution=0.01, length=200, variable=def_step, orient=HORIZONTAL)
 scale4.grid(column=2, row=3)
 
+lbl5 = Label(window, text="Plots:")
+lbl5.grid(column=1, row=4)
+
 
 # IVP button handling
 def ivp_clicked():
@@ -287,7 +329,7 @@ def ivp_clicked():
 
 
 btn1 = Button(window, text="IVP", command=ivp_clicked)
-btn1.grid(column=3, row=4, sticky=E)
+btn1.grid(column=2, row=5)
 
 
 # Euler button handling
@@ -301,7 +343,7 @@ def euler_clicked():
 
 
 btn2 = Button(window, text="Euler", command=euler_clicked)
-btn2.grid(column=3, row=5, sticky=E)
+btn2.grid(column=2, row=6)
 
 
 # Imp. Euler button handling
@@ -315,7 +357,7 @@ def imp_euler_clicked():
 
 
 btn3 = Button(window, text="Imp. Euler", command=imp_euler_clicked)
-btn3.grid(column=3, row=6, sticky=E)
+btn3.grid(column=2, row=7)
 
 
 # Runge Kutta button handling
@@ -329,7 +371,7 @@ def runge_kutta_clicked():
 
 
 btn4 = Button(window, text="Runge Kutta", command=runge_kutta_clicked)
-btn4.grid(column=3, row=7, sticky=E)
+btn4.grid(column=2, row=8)
 
 
 # All plots button handling
@@ -343,7 +385,7 @@ def all_clicked():
 
 
 btn5 = Button(window, text="All plots", command=all_clicked)
-btn5.grid(column=3, row=8, sticky=E)
+btn5.grid(column=2, row=9)
 
 
 # All local errors button handling
@@ -357,7 +399,7 @@ def all_local_errors_clicked():
 
 
 btn6 = Button(window, text="All local errors", command=all_local_errors_clicked)
-btn6.grid(column=3, row=9, sticky=E)
+btn6.grid(column=2, row=10)
 
 
 # Global error button handling
@@ -371,15 +413,12 @@ def global_error_clicked():
 
 
 btn7 = Button(window, text="Global error", command=global_error_clicked)
-btn7.grid(column=3, row=10, sticky=E)
+btn7.grid(column=2, row=11)
 
 
 # Errors handling
 def check_for_error():
-    if scale1.get() == 0:
-        messagebox.showerror("Error", "Division by zero")
-        return True
-    elif scale3.get() < scale1.get():
+    if scale3.get() < scale1.get():
         messagebox.showerror("Error", "X must be greater than x0!")
         return True
     else:
