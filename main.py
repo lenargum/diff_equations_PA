@@ -237,7 +237,7 @@ def global_error(y0, x0, xn, step):
 
 window = Tk()
 window.title("Assignment")
-window.geometry('350x355+250+500')
+window.geometry('350x355+200+300')
 
 lbl1 = Label(window, text="x0 =")
 lbl1.grid(column=1, row=0)
@@ -365,6 +365,9 @@ btn7.grid(column=3, row=10, sticky=E)
 def check_for_error():
     if scale1.get() == 0:
         messagebox.showerror("Error", "Division by zero")
+        return True
+    elif scale3.get() < scale1.get():
+        messagebox.showerror("Error", "X must be greater than x0!")
         return True
     else:
         return False
