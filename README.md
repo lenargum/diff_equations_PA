@@ -11,5 +11,5 @@ pip install -r requirements.txt
 python main.py
 ```
 
-Initial value is already set as default (x0 = 0, y0 = 1, X = 3)
+Initial value is already set as default (x_0 = 0, y_0 = 1, X = 3)
 #### Thank you!
